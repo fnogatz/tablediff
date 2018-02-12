@@ -61,6 +61,11 @@ block_rowa_number=1
 # read in patch
 while read line
 do
+    # diff header
+    if [[ $line =~ ^diff\s-arN ]]; then
+        continue
+    fi
+
     # mode header
     if [[ $line =~ ^[0-9]+(,[0-9]+)?[adc][0-9]+(,[0-9]+)?$ ]]; then
         if [[ $mode == "c" ]]; then
@@ -102,6 +107,7 @@ do
 
     # process line
     row=${line#[<>] }  # remove leading "> "
+    row=${row%%[[:space:]]}  # remove trailing spaces
     IFS="$DELIMITER" read -ra rowb <<< "$row"
 
     # addition
