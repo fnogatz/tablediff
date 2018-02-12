@@ -142,8 +142,4 @@ for f in "$OLD_PATH"/*; do
     cmp -s $f $NEW_PATH"/"${f##*/} && rm $f && rm $NEW_PATH"/"${f##*/};
 done
 
-# get diff for all remaining files and keep
-#   non-identical files
-for f in "$OLD_PATH"/*; do
-    diff $f $NEW_PATH"/"${f##*/};
-done
+diff -arN "$OLD_PATH" "$NEW_PATH";
