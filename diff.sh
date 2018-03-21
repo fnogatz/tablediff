@@ -132,6 +132,7 @@ for f in "$OLD_PATH"/*; do cmp -s $f $NEW_PATH"/"${f##*/} && rm $f && rm $NEW_PA
 SORT_PATTERN=${SORTS[*]}
 SORT_PATTERN=${SORT_PATTERN/ /,}
 for f in "$OLD_PATH"/*; do
+    [ -e "$f" ] || continue
     sort --field-separator=$DELIMITER --key="$SORT_PATTERN" -o $NEW_PATH"/"${f##*/} $NEW_PATH"/"${f##*/} &
     sort --field-separator=$DELIMITER --key="$SORT_PATTERN" -o $f $f &
 done
@@ -139,6 +140,7 @@ wait
 
 # bitwise comparison to remove identical sorted files
 for f in "$OLD_PATH"/*; do
+    [ -e "$f" ] || continue
     cmp -s $f $NEW_PATH"/"${f##*/} && rm $f && rm $NEW_PATH"/"${f##*/};
 done
 
