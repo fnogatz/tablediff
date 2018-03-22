@@ -133,8 +133,9 @@ SORT_PATTERN=${SORTS[*]}
 SORT_PATTERN=${SORT_PATTERN/ /,}
 for f in "$OLD_PATH"/*; do
     [ -e "$f" ] || continue
-    sort --field-separator=$DELIMITER --key="$SORT_PATTERN" -o $NEW_PATH"/"${f##*/} $NEW_PATH"/"${f##*/} &
     sort --field-separator=$DELIMITER --key="$SORT_PATTERN" -o $f $f &
+    [ -e $NEW_PATH"/"${f##*/} ] || continue
+    sort --field-separator=$DELIMITER --key="$SORT_PATTERN" -o $NEW_PATH"/"${f##*/} $NEW_PATH"/"${f##*/} &
 done
 wait
 
